@@ -14,7 +14,7 @@ The types of questions that can be generated include the following:
 - Calculating the Dot Frequency of a given Display Size and Refresh Rate.
 - Representing a decimal number in binary using 2's Complement.
 - Performing 'Bus Stop' division.
-- Determining the mode(s), median, mean, or range of a given data set.
+- Determining the mode (or modal values), median, mean, or range of a given data set.
 
 # Examples (gif)
 ![](./demo/demo.gif)
