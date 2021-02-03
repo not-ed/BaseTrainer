@@ -17,9 +17,11 @@ class Question():
         global questions_this_session
         questions_this_session += 1
 
+    #Print a visual divider.
     def PrintDivider(self):
         print("-"*32)
 
+    # Display the question
     def Display(self):
         self.PrintDivider()
         print(self.prompt)
@@ -31,14 +33,17 @@ class Question():
         self.DisplayStats()
         self.WaitForUserContinue()
 
+    # Show the question's answer
     def ShowAnswer(self):
         self.PrintDivider()
         print("The answer is: {}".format(self.answer))
         self.PrintDivider()
     
+    # Prompt the user to press enter to reveal the questions answer
     def WaitForUserReveal(self):
         input("Press 'Enter' to reveal the answer.")
 
+    # Prompt the user to press enter to display a new question
     def WaitForUserContinue(self):
         input("Press 'Enter' to display the next question.")
         ClearTerminal()
@@ -116,7 +121,7 @@ def GiveBusStopQuestion():
     raw_answer = int(number / divider)
     raw_remainder = int(number % divider)
 
-    q_text = "Calculate the following, and express with a remainder:\n{}\n{}|{}\n".format((" "*(len(str(divider))+1))+("_"*len(str(number))),divider,number)
+    q_text = "Calculate the following, and express with a remainder:\n{}\n{}⎠{}\n".format((" "*(len(str(divider))+1))+("_"*len(str(number))),divider,number)
     a_text = "{}, remainder {}".format(raw_answer,raw_remainder)
 
     generated_question = Question(q_text,a_text)
@@ -222,6 +227,7 @@ def GiveDotFrequencyQuestion():
 
 def GiveTwosCompQuestion():
     question_number = randint(1,254)
+    #question_bin = str(bin(question_number))[2:].zfill(8)
     question_bin_raw = bin(question_number)
     question_bin = "0b"
     for i in str(question_bin_raw)[2:].zfill(8):
@@ -231,6 +237,7 @@ def GiveTwosCompQuestion():
             question_bin = question_bin + "1"
     
     question_bin = bin(int(question_bin,2))
+    #question_bin_inverted = bin(int(question_bin,2))
     question_bin = bin(int(question_bin,2) + 1)
 
     q_text = "Represent the following number as an 8-bit binary number using 2's Complement:\n\n-{}\n".format(question_number)
