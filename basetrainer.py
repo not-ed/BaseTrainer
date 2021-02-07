@@ -77,6 +77,7 @@ class QuestionType(Enum):
     MEDIAN_SET = 8,
     MEAN_SET = 9,
     RANGE_SET = 10
+    MATRIX_MULTIPLICATION = 11
     
 class BaseType(Enum):
     DEC = "DECIMAL / DENARY (Base10)"
@@ -380,6 +381,97 @@ def GiveRangeSetQuestion():
     generated_question.Display()
 
 
+def GiveMatrixMultiplicationQuestion():
+    letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    matrice_dimension_sizes = [randint(2,4),randint(2,4),randint(2,4)]
+
+    a_l_i = randint(0,24) 
+    b_l_i = a_l_i + 1
+
+    m_a = []
+    m_b = []
+
+    for i in range(matrice_dimension_sizes[0]):        
+        m_a.append([])
+        for j in range(matrice_dimension_sizes[1]):
+            m_a[i].append(randint(1,9))
+
+    for i in range(matrice_dimension_sizes[1]):        
+        m_b.append([])
+        for j in range(matrice_dimension_sizes[2]):
+            m_b[i].append(randint(1,9))
+
+    # How far to seperate both matrices from each other on screen
+    q_distance = max(matrice_dimension_sizes)
+
+    q_text = "Calculate {}{}".format(letters[a_l_i],letters[b_l_i])
+    q_text += "\n{} =".format(letters[a_l_i]) + ("  "*len(m_a[0]))+" {} =".format(letters[b_l_i])
+    for i in range(q_distance):
+        current_line = "\n"
+        if(i <= len(m_a)-1):
+            if i == 0:
+                current_line += "⎧ " #U+23A7
+            elif i == len(m_a)-1:
+                current_line += "⎩ " #U+23A9
+            else:
+                current_line += "⎪ "#U+23AA
+        
+            for k in range(len(m_a[i])):
+                current_line += str(m_a[i][k]) + " "
+
+            if i == 0:
+                current_line += "⎫ " #U+23AB
+            elif i == len(m_a)-1:
+                current_line += "⎭ " #U+23AD
+            else:
+                current_line += "⎪ "#U+23AA
+        else:
+            current_line += "  " * (q_distance+2)
+
+        if(i <= len(m_b)-1):
+            if i == 0:
+                current_line += "⎧ " #U+23A7
+            elif i == len(m_b)-1:
+                current_line += "⎩ " #U+23A9
+            else:
+                current_line += "⎪ "#U+23AA
+        
+            for k in range(len(m_b[i])):
+                current_line += str(m_b[i][k]) + " "
+
+            if i == 0:
+                current_line += "⎫ " #U+23AB
+            elif i == len(m_b)-1:
+                current_line += "⎭ " #U+23AD
+            else:
+                current_line += "⎪ "#U+23AA
+
+        q_text += current_line
+
+    # Actual meat of solving the matrix multiplication
+    answer = []
+    for i in range(matrice_dimension_sizes[0]): #matrix A's height / mds index 0
+        answer.append([])
+        for j in range(matrice_dimension_sizes[2]): #matrix B's width / mds index 2
+            index_total = 0
+            for k in range(matrice_dimension_sizes[1]): #matrix A's width/matrix B's height (mds index 1)
+                index_total += (m_a[i][k] * m_b[k][j])
+            answer[i].append(index_total)
+
+    a_text = ""
+    for i in range(len(answer)):
+        row_text = ""
+        for j in range(len(answer[i])):
+            row_text += str(answer[i][j]).rjust(3," ") + " "
+        if i == 0:
+            a_text += "\n⎧ {}⎫\n".format(row_text) #U+23A7 and U+23AB
+        elif i == matrice_dimension_sizes[0]-1:
+            a_text += "⎩ {}⎭".format(row_text) #U+23A9 and U+23AD
+        else:
+            a_text += "⎪ {}⎪\n".format(row_text) #U+23AA
+
+    generated_question = Question(q_text,a_text)
+    generated_question.Display()
 
 #Specify a question type, it will handle the rest
 def GiveQuestion(question_type):
@@ -406,6 +498,8 @@ def GiveQuestion(question_type):
         GiveMeanSetQuestion()
     if(question_type == QuestionType.RANGE_SET):
         GiveRangeSetQuestion()
+    if(question_type == QuestionType.MATRIX_MULTIPLICATION):
+        GiveMatrixMultiplicationQuestion()
 
 
 # Program Start

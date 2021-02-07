@@ -15,7 +15,7 @@ The types of questions that can be generated include the following:
 - Representing a decimal number in binary using 2's Complement.
 - Performing 'Bus Stop' division.
 - Determining the mode (or modal values), median, mean, or range of a given data set.
-
+- Martix multiplication by other matrices.
 # Examples (gif)
 ![](./demo/demo.gif)
 
