@@ -63,9 +63,9 @@ class Question():
     
 def ClearTerminal():
     if platform.system() == "Windows":
-        os.system("clear")
-    else:
         os.system("cls")
+    else:
+        os.system("clear")
 
 class QuestionType(Enum):
     BASE_CONVERSION = 0,
