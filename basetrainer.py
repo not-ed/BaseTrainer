@@ -3,6 +3,7 @@ from random import choice, randint, shuffle
 import os
 import time
 import math
+import platform
 
 questions_this_session = 0
 
@@ -61,8 +62,10 @@ class Question():
 
     
 def ClearTerminal():
-    os.system("cls")
-    os.system("clear")
+    if platform.system() == "Windows":
+        os.system("clear")
+    else:
+        os.system("cls")
 
 class QuestionType(Enum):
     BASE_CONVERSION = 0,
@@ -410,41 +413,41 @@ def GiveMatrixMultiplicationQuestion():
         current_line = "\n"
         if(i <= len(m_a)-1):
             if i == 0:
-                current_line += "⎧ " #U+23A7
+                current_line += "┌ "
             elif i == len(m_a)-1:
-                current_line += "⎩ " #U+23A9
+                current_line += "└ " 
             else:
-                current_line += "⎪ "#U+23AA
+                current_line += "│ "
         
             for k in range(len(m_a[i])):
                 current_line += str(m_a[i][k]) + " "
 
             if i == 0:
-                current_line += "⎫ " #U+23AB
+                current_line += "┐ " 
             elif i == len(m_a)-1:
-                current_line += "⎭ " #U+23AD
+                current_line += "┘ " 
             else:
-                current_line += "⎪ "#U+23AA
+                current_line += "│ "
         else:
             current_line += "  " * (q_distance+2)
 
         if(i <= len(m_b)-1):
             if i == 0:
-                current_line += "⎧ " #U+23A7
+                current_line += "┌ " 
             elif i == len(m_b)-1:
-                current_line += "⎩ " #U+23A9
+                current_line += "└ " 
             else:
-                current_line += "⎪ "#U+23AA
+                current_line += "│ "
         
             for k in range(len(m_b[i])):
                 current_line += str(m_b[i][k]) + " "
 
             if i == 0:
-                current_line += "⎫ " #U+23AB
+                current_line += "┐ " 
             elif i == len(m_b)-1:
-                current_line += "⎭ " #U+23AD
+                current_line += "┘ "
             else:
-                current_line += "⎪ "#U+23AA
+                current_line += "│ "
 
         q_text += current_line
 
@@ -464,11 +467,11 @@ def GiveMatrixMultiplicationQuestion():
         for j in range(len(answer[i])):
             row_text += str(answer[i][j]).rjust(3," ") + " "
         if i == 0:
-            a_text += "\n⎧ {}⎫\n".format(row_text) #U+23A7 and U+23AB
+            a_text += "\n┌ {}┐\n".format(row_text)
         elif i == matrice_dimension_sizes[0]-1:
-            a_text += "⎩ {}⎭".format(row_text) #U+23A9 and U+23AD
+            a_text += "└ {}┘".format(row_text)
         else:
-            a_text += "⎪ {}⎪\n".format(row_text) #U+23AA
+            a_text += "│ {}│\n".format(row_text)
 
     generated_question = Question(q_text,a_text)
     generated_question.Display()
