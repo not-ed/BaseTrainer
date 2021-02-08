@@ -80,8 +80,8 @@ class QuestionType(Enum):
     MEDIAN_SET = 8,
     MEAN_SET = 9,
     RANGE_SET = 10
-    MATRIX_MULTIPLICATION = 11
-    
+    MATRIX_MULTIPLICATION = 11,
+    MATRIX_TRANSPOSE = 12    
 class BaseType(Enum):
     DEC = "DECIMAL / DENARY (Base10)"
     HEX = "HEXADECIMAL (Base16)"
@@ -476,6 +476,61 @@ def GiveMatrixMultiplicationQuestion():
     generated_question = Question(q_text,a_text)
     generated_question.Display()
 
+def GiveMatrixTranspositionQuestion():
+    letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    letter_index = randint(0,25)
+
+    matrix_dimensions = [randint(2,5)]
+    matrix_dimensions.append(randint(2,5))
+
+    original_matrix = []
+    for i in range(matrix_dimensions[0]):
+        original_matrix.append([])
+        for j in range(matrix_dimensions[1]):
+            original_matrix[i].append(str(randint(1,9) * choice([-1,1])).rjust(2," "))
+
+    transposed_matrix = []
+    for i in range(matrix_dimensions[1]): #original matrix WIDTH
+        transposed_matrix.append([])
+        for j in range(matrix_dimensions[0]): #original matrix HEIGHT
+            transposed_matrix[i].append(original_matrix[j][i])
+    
+    original_string = ""
+    for i in range(len(original_matrix)):
+        row_text = ""
+        for j in range(len(original_matrix[i])):
+            row_text += str(original_matrix[i][j]).rjust(2," ") + " "
+        if i == 0:
+            if(len(original_matrix) == 1):
+                original_string  += "[ {}]\n".format(row_text)
+            else:
+                original_string  += "┌ {}┐\n".format(row_text)
+        elif i == matrix_dimensions[0]-1:
+            original_string  += "└ {}┘".format(row_text)
+        else:
+            original_string  += "│ {}│\n".format(row_text)
+
+    transposed_string = "\n"
+    for i in range(len(transposed_matrix)):
+        row_text = ""
+        for j in range(len(transposed_matrix[i])):
+            row_text += str(transposed_matrix[i][j]).rjust(2," ") + " "
+        if i == 0:
+            if(len(transposed_matrix) == 1):
+                transposed_string  += "[ {}]\n".format(row_text)
+            else:
+                transposed_string  += "┌ {}┐\n".format(row_text)
+        elif i == matrix_dimensions[1]-1:
+            transposed_string  += "└ {}┘".format(row_text)
+        else:
+            transposed_string  += "│ {}│\n".format(row_text)
+
+    q_text = "Determine {}ᵀ\n{}=\n{}".format(letters[letter_index],letters[letter_index],original_string) # ᵀ or chr(7488)
+    a_text = transposed_string
+
+    generated_question = Question(q_text,a_text)
+    generated_question.Display()
+
 #Specify a question type, it will handle the rest
 def GiveQuestion(question_type):
     if(question_type == QuestionType.BASE_CONVERSION):
@@ -503,6 +558,9 @@ def GiveQuestion(question_type):
         GiveRangeSetQuestion()
     if(question_type == QuestionType.MATRIX_MULTIPLICATION):
         GiveMatrixMultiplicationQuestion()
+    if(question_type == QuestionType.MATRIX_TRANSPOSE):
+        GiveMatrixTranspositionQuestion()
+
 
 
 # Program Start
