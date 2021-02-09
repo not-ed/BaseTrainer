@@ -81,7 +81,9 @@ class QuestionType(Enum):
     MEAN_SET = 9,
     RANGE_SET = 10
     MATRIX_MULTIPLICATION = 11,
-    MATRIX_TRANSPOSE = 12    
+    MATRIX_TRANSPOSE = 12,
+    MATRIX_ORDER = 13
+
 class BaseType(Enum):
     DEC = "DECIMAL / DENARY (Base10)"
     HEX = "HEXADECIMAL (Base16)"
@@ -531,6 +533,32 @@ def GiveMatrixTranspositionQuestion():
     generated_question = Question(q_text,a_text)
     generated_question.Display()
 
+def GiveMatrixOrderQuestion():
+    letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    letter_index = randint(0,25)
+
+    width = randint(2,5)
+    height = randint(2,5)
+
+    q_matrix = ""
+
+    for i in range(height):
+        row_text = ""
+        for j in range(width):
+            row_text += str(randint(-9,9)).rjust(2," ") + " "
+        if i == 0:
+            q_matrix  += "┌ {}┐\n".format(row_text)
+        elif i == height-1:
+            q_matrix  += "└ {}┘".format(row_text)
+        else:
+            q_matrix  += "│ {}│\n".format(row_text)
+
+    q_text = "Determine the {} of {}\n{}=\n{}".format(choice(("SIZE","ORDER")),letters[letter_index],letters[letter_index],q_matrix)
+    a_text = "{} x {}".format(str(height),str(width))
+
+    generated_question = Question(q_text,a_text)
+    generated_question.Display()
+
 #Specify a question type, it will handle the rest
 def GiveQuestion(question_type):
     if(question_type == QuestionType.BASE_CONVERSION):
@@ -560,7 +588,8 @@ def GiveQuestion(question_type):
         GiveMatrixMultiplicationQuestion()
     if(question_type == QuestionType.MATRIX_TRANSPOSE):
         GiveMatrixTranspositionQuestion()
-
+    if(question_type == QuestionType.MATRIX_ORDER):
+        GiveMatrixOrderQuestion()
 
 
 # Program Start

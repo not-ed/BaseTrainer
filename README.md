@@ -18,6 +18,7 @@ The types of questions that can be generated include the following:
 - Matrices:
     - Multiplication by other matrices.
     - Transposition.
+    - Determining Size/Order
     
 # Examples (gif)
 ![](./demo/demo.gif)
