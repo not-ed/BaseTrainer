@@ -22,6 +22,7 @@ The following topics are also covered from **Semester 2**'s cirriculum:
     - Transposition.
     - Determining Size/Order.
     - Calculating the Determinant of a 2x2 matrix.
+    - Addition or Subtraction of 2 identically sized matrices.
     
 # Examples (gif)
 ![](./demo/demo.gif)

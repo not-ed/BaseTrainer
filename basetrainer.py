@@ -4,6 +4,7 @@ import os
 import time
 import math
 import platform
+import numpy
 
 questions_this_session = 0
 
@@ -83,7 +84,8 @@ class QuestionType(Enum):
     MATRIX_MULTIPLICATION = 11,
     MATRIX_TRANSPOSE = 12,
     MATRIX_ORDER = 13,
-    MATRIX_DETERMINANT = 14
+    MATRIX_DETERMINANT = 14,
+    MATRIX_SUM = 15
 
 class BaseType(Enum):
     DEC = "DECIMAL / DENARY (Base10)"
@@ -576,6 +578,67 @@ def GiveMatrixDeterminantQuestion():
     generated_question = Question(q_text,a_text)
     generated_question.Display()
 
+def GiveMatrixSumQuestion():
+    letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    l_a = randint(0,24)
+    l_b = l_a + 1
+    matrix_dimensions = [randint(2,4),randint(2,4)]
+    m_a = []
+    m_b = []
+    for i in range(matrix_dimensions[0]):
+        i_a = []
+        i_b = []
+        for j in range(matrix_dimensions[1]):
+            i_a.append(randint(1,30))
+            i_b.append(randint(1,30))
+        m_a.append(i_a)
+        m_b.append(i_b)
+
+    answer = []
+    use_subtraction = randint(0,1) # 0 = add, 1 = sub
+    swap_matrices = randint(0,1) # Only relevant if subtraction is used
+    if use_subtraction:
+        if swap_matrices:
+            answer = numpy.subtract(m_b,m_a)
+        else:
+            answer = numpy.subtract(m_a,m_b)
+    else:
+        answer = numpy.add(m_a,m_b)
+
+    q_text = ""
+    a_text = "\n"
+    if swap_matrices:
+        q_text = "Calculate {}{}{}\n".format(letters[l_b],["+","-"][use_subtraction],letters[l_a])
+    else:
+        q_text = "Calculate {}{}{}\n".format(letters[l_a],["+","-"][use_subtraction],letters[l_b])
+    
+    q_text = q_text + "{}=".format(letters[l_a]) + (" "*(3*matrix_dimensions[1]+(matrix_dimensions[1]+1))) + "{}=".format(letters[l_b]) + "\n"
+
+    for i in range(matrix_dimensions[0]):
+        q_row_text_a = ""
+        q_row_text_b = ""
+        q_row_text_answer = ""
+        for j in range(matrix_dimensions[1]):
+            q_row_text_a = q_row_text_a + str(m_a[i][j]).rjust(3, " ") + " "
+            q_row_text_b = q_row_text_b + str(m_b[i][j]).rjust(3, " ") + " "
+            q_row_text_answer = q_row_text_answer + str(answer[i][j]).rjust(3, " ") + " "
+
+        if i == 0:
+            q_text = q_text + "┌{}┐ ┌{}┐\n".format(q_row_text_a,q_row_text_b)
+            a_text = a_text + "┌{}┐\n".format(q_row_text_answer)
+        elif i == matrix_dimensions[0]-1:
+            q_text = q_text + "└{}┘ └{}┘".format(q_row_text_a,q_row_text_b)
+            a_text = a_text + "└{}┘".format(q_row_text_answer)
+        else:
+            q_text = q_text + "│{}│ │{}│\n".format(q_row_text_a,q_row_text_b)
+            a_text = a_text + "│{}│\n".format(q_row_text_answer)
+
+    # Reminder that may appear when subtraction is being asked in the question.
+    q_text = q_text + ("\nRemember, Matrix Subtraction is NOT commutative!" * (use_subtraction * (randint(0,5) == 0)))
+    
+    generated_question = Question(q_text,a_text)
+    generated_question.Display()
+
 #Specify a question type, it will handle the rest
 def GiveQuestion(question_type):
     if(question_type == QuestionType.BASE_CONVERSION):
@@ -609,6 +672,8 @@ def GiveQuestion(question_type):
         GiveMatrixOrderQuestion()
     if(question_type == QuestionType.MATRIX_DETERMINANT):
         GiveMatrixDeterminantQuestion()
+    if(question_type == QuestionType.MATRIX_SUM):
+        GiveMatrixSumQuestion()
 
 
 # Program Start
