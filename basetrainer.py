@@ -82,7 +82,8 @@ class QuestionType(Enum):
     RANGE_SET = 10
     MATRIX_MULTIPLICATION = 11,
     MATRIX_TRANSPOSE = 12,
-    MATRIX_ORDER = 13
+    MATRIX_ORDER = 13,
+    MATRIX_DETERMINANT = 14
 
 class BaseType(Enum):
     DEC = "DECIMAL / DENARY (Base10)"
@@ -559,6 +560,22 @@ def GiveMatrixOrderQuestion():
     generated_question = Question(q_text,a_text)
     generated_question.Display()
 
+def GiveMatrixDeterminantQuestion():
+    letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    letter_index = randint(0,25)
+    # Only a 2x2 matrix is assumed to be within the scope of the cirriculum based on notes given.
+    numbers = [randint(1,9),randint(1,9),randint(1,9),randint(1,9)]
+    determinant = (numbers[0] * numbers[3]) - (numbers[1] * numbers[2])
+    
+    q_text = choice(("Calculate |{}|".format(letters[letter_index]),"Calculate the DETERMINANT of {}".format(letters[letter_index])))
+    q_text = q_text + "\n" + letters[letter_index] + "=\n"
+    q_text = q_text + "┌ {} {} ┐\n".format(str(numbers[0]),str(numbers[1]))
+    q_text = q_text + "└ {} {} ┘".format(str(numbers[2]),str(numbers[3]))
+    a_text = str(determinant)
+
+    generated_question = Question(q_text,a_text)
+    generated_question.Display()
+
 #Specify a question type, it will handle the rest
 def GiveQuestion(question_type):
     if(question_type == QuestionType.BASE_CONVERSION):
@@ -590,6 +607,8 @@ def GiveQuestion(question_type):
         GiveMatrixTranspositionQuestion()
     if(question_type == QuestionType.MATRIX_ORDER):
         GiveMatrixOrderQuestion()
+    if(question_type == QuestionType.MATRIX_DETERMINANT):
+        GiveMatrixDeterminantQuestion()
 
 
 # Program Start

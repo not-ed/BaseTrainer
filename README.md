@@ -14,11 +14,14 @@ The types of questions that can be generated include the following:
 - Calculating the Dot Frequency of a given Display Size and Refresh Rate.
 - Representing a decimal number in binary using 2's Complement.
 - Performing 'Bus Stop' division.
+
+The following topics are also covered from **Semester 2**'s cirriculum:
 - Determining the mode (or modal values), median, mean, or range of a given data set.
 - Matrices:
     - Multiplication by other matrices.
     - Transposition.
-    - Determining Size/Order
+    - Determining Size/Order.
+    - Calculating the Determinant of a 2x2 matrix.
     
 # Examples (gif)
 ![](./demo/demo.gif)
