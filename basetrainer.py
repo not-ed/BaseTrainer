@@ -5,8 +5,14 @@ import time
 import math
 import platform
 import numpy
+from urllib import request
 
 questions_this_session = 0
+version_message = ""
+
+# This should be changed alongside the 'VERSION' file with each push to allow for version checking at startup.
+VERSION_SUM = "cbf71d9a47b052cc4ff5d7285b6c53110b97b636835fddd0c67fdacaf93cfe40"
+
 
 class Question():
     prompt = ""
@@ -92,6 +98,19 @@ class BaseType(Enum):
     HEX = "HEXADECIMAL (Base16)"
     BIN = "BINARY (Base2)"
     OCT = "OCTAL (Base8)"
+
+# Check for the most up to date version
+def PerformVersionCheck():
+    global version_message
+    global VERSION_SUM
+    try:
+        utd_version_sum = request.urlopen("https://raw.githubusercontent.com/not-ed/BaseTrainer/main/VERSION")
+        if utd_version_sum.read().decode('utf-8') == VERSION_SUM:
+            version_message = "*BaseTrainer is up to date.*"
+        else:
+            version_message = "*A NEW VERSION OF BASETRAINER IS AVAILABLE FROM GITHUB:*\nhttps://github.com/not-ed/BaseTrainer"
+    except:
+        version_message = "*Unable to check for newest version.*"
 
     #Returns two base types guaranteed to be different
 def GetRandomBaseTypePair():
@@ -679,6 +698,8 @@ def GiveQuestion(question_type):
 # Program Start
 
 # Ask for user topic range
+PerformVersionCheck()
+print(version_message + "\n" + "-"*32)
 print("Do you want to include or exclude any particular semester's topics?")
 print("     1. Only practice Semester 1 related topics")
 print("     2. Only practice Semester 2 related topics")
