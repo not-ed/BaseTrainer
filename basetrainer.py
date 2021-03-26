@@ -4,14 +4,13 @@ import os
 import time
 import math
 import platform
-import numpy
 from urllib import request
 
 questions_this_session = 0
 version_message = ""
 
 # This should be changed alongside the 'VERSION' file with each push to allow for version checking at startup.
-VERSION_SUM = "cbf71d9a47b052cc4ff5d7285b6c53110b97b636835fddd0c67fdacaf93cfe40"
+VERSION_SUM = "f3204e2a4b263a7e4e4959c937fc5da5fbbc9524356f764ebd717c443ce99fec"
 
 
 class Question():
@@ -604,25 +603,27 @@ def GiveMatrixSumQuestion():
     matrix_dimensions = [randint(2,4),randint(2,4)]
     m_a = []
     m_b = []
-    for i in range(matrix_dimensions[0]):
-        i_a = []
-        i_b = []
-        for j in range(matrix_dimensions[1]):
-            i_a.append(randint(1,30))
-            i_b.append(randint(1,30))
-        m_a.append(i_a)
-        m_b.append(i_b)
-
     answer = []
     use_subtraction = randint(0,1) # 0 = add, 1 = sub
     swap_matrices = randint(0,1) # Only relevant if subtraction is used
-    if use_subtraction:
-        if swap_matrices:
-            answer = numpy.subtract(m_b,m_a)
-        else:
-            answer = numpy.subtract(m_a,m_b)
-    else:
-        answer = numpy.add(m_a,m_b)
+
+    for i in range(matrix_dimensions[0]):
+        i_a = []
+        i_b = []
+        i_ans = []
+        for j in range(matrix_dimensions[1]):
+            i_a.append(randint(1,30))
+            i_b.append(randint(1,30))
+            if use_subtraction:
+                if swap_matrices:
+                    i_ans.append(i_b[j] - i_a[j])
+                else:
+                    i_ans.append(i_a[j] - i_b[j])
+            else:
+                i_ans.append(i_a[j] + i_b[j])
+        m_a.append(i_a)
+        m_b.append(i_b)
+        answer.append(i_ans)
 
     q_text = ""
     a_text = "\n"
