@@ -1,3 +1,4 @@
+![](./demo/demo.gif)
 # BaseTrainer
 BaseTrainer is a simple terminal application written in Python 3 initially written to help with studying various Digital Technologies concepts taught at University.
 
@@ -23,9 +24,7 @@ The following topics are also covered from **Semester 2**'s cirriculum:
     - Determining Size/Order.
     - Calculating the Determinant of a 2x2 matrix.
     - Addition or Subtraction of 2 identically sized matrices.
-    
-# Examples (gif)
-![](./demo/demo.gif)
+    - Referencing/Identifying subscripts of a given matrix.
 
 # Usage / Requirements
 - Python 3

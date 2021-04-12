@@ -10,7 +10,7 @@ questions_this_session = 0
 version_message = ""
 
 # This should be changed alongside the 'VERSION' file with each push to allow for version checking at startup.
-VERSION_SUM = "f3204e2a4b263a7e4e4959c937fc5da5fbbc9524356f764ebd717c443ce99fec"
+VERSION_SUM = "58e116b51ac3b6012ba7bbfd6b3e57d0a8f659e7b0172bfaa0443b2b50c3b1fc"
 
 
 class Question():
@@ -90,7 +90,8 @@ class QuestionType(Enum):
     MATRIX_TRANSPOSE = 12,
     MATRIX_ORDER = 13,
     MATRIX_DETERMINANT = 14,
-    MATRIX_SUM = 15
+    MATRIX_SUM = 15,
+    MATRIX_SUBSCRIPT = 16,
 
 class BaseType(Enum):
     DEC = "DECIMAL / DENARY (Base10)"
@@ -659,6 +660,42 @@ def GiveMatrixSumQuestion():
     generated_question = Question(q_text,a_text)
     generated_question.Display()
 
+def GiveMatrixSubscriptQuestion():
+    letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    letter_index = randint(0,25)
+
+    subscript_number = ["₀","₁","₂","₃","₄","₅","₆","₇","₈","₉"]
+
+    width = randint(2,5)
+    height = randint(2,5)
+
+    subject_row = randint(0,height-1)
+    subject_column = randint(0,width-1)
+
+    q_matrix = ""
+    answer_value = ""
+
+    for i in range(height):
+        row_text = ""
+        for j in range(width):
+            num = randint(-99,99)
+            row_text += str(num).rjust(3," ") + " "
+            if i == subject_row and j == subject_column:
+                answer_value = num
+        if i == 0:
+            q_matrix  += "┌ {}┐\n".format(row_text)
+        elif i == height-1:
+            q_matrix  += "└ {}┘".format(row_text)
+        else:
+            q_matrix  += "│ {}│\n".format(row_text)
+
+    q_text = "Identify {}{},{}\n".format(letters[letter_index],subscript_number[subject_row+1],subscript_number[subject_column+1])
+    q_text += letters[letter_index] + "=\n" + q_matrix
+    a_text = answer_value
+    generated_question = Question(q_text,a_text)
+    generated_question.Display()
+
+
 #Specify a question type, it will handle the rest
 def GiveQuestion(question_type):
     if(question_type == QuestionType.BASE_CONVERSION):
@@ -694,7 +731,8 @@ def GiveQuestion(question_type):
         GiveMatrixDeterminantQuestion()
     if(question_type == QuestionType.MATRIX_SUM):
         GiveMatrixSumQuestion()
-
+    if(question_type == QuestionType.MATRIX_SUBSCRIPT):
+        GiveMatrixSubscriptQuestion()
 
 # Program Start
 
