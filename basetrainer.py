@@ -10,7 +10,7 @@ questions_this_session = 0
 version_message = ""
 
 # This should be changed alongside the 'VERSION' file with each push to allow for version checking at startup.
-VERSION_SUM = "58e116b51ac3b6012ba7bbfd6b3e57d0a8f659e7b0172bfaa0443b2b50c3b1fc"
+VERSION_SUM = "d5ece9caeb4606f7e651d12da1614b19ee93784833ded6821ad30bd6ef8b817e"
 
 
 class Question():
@@ -92,6 +92,7 @@ class QuestionType(Enum):
     MATRIX_DETERMINANT = 14,
     MATRIX_SUM = 15,
     MATRIX_SUBSCRIPT = 16,
+    RADIAN_DEGREES_CONVERSION = 17
 
 class BaseType(Enum):
     DEC = "DECIMAL / DENARY (Base10)"
@@ -695,6 +696,21 @@ def GiveMatrixSubscriptQuestion():
     generated_question = Question(q_text,a_text)
     generated_question.Display()
 
+def GiveRadiansDegreeQuestion():
+    q_degrees = randint(1, 359)
+    q_degrees += (randint(1,200)/200)
+    q_radians = round(math.radians(q_degrees),9)
+
+    q_text = ""
+    a_text = ""
+    if randint(0, 1) == 1:
+        q_text = "Convert {} DEGREES to RADIANS.".format(q_degrees)
+        a_text = "{} Radians".format(q_radians)
+    else:
+        q_text = "Convert {} RADIANS to DEGREES.".format(q_radians)
+        a_text = "{} Degrees".format(q_degrees)
+    generated_question = Question(q_text,a_text)
+    generated_question.Display()
 
 #Specify a question type, it will handle the rest
 def GiveQuestion(question_type):
@@ -733,6 +749,8 @@ def GiveQuestion(question_type):
         GiveMatrixSumQuestion()
     if(question_type == QuestionType.MATRIX_SUBSCRIPT):
         GiveMatrixSubscriptQuestion()
+    if(question_type == QuestionType.RADIAN_DEGREES_CONVERSION):
+        GiveRadiansDegreeQuestion()
 
 # Program Start
 

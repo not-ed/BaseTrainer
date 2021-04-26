@@ -25,6 +25,7 @@ The following topics are also covered from **Semester 2**'s cirriculum:
     - Calculating the Determinant of a 2x2 matrix.
     - Addition or Subtraction of 2 identically sized matrices.
     - Referencing/Identifying subscripts of a given matrix.
+- Converting Degress to Radians, and vice-versa.
 
 # Usage / Requirements
 - Python 3
