@@ -1,5 +1,5 @@
 from enum import Enum
-from random import choice, randint, shuffle
+from random import choice, randint, shuffle,uniform
 import os
 import time
 import math
@@ -10,7 +10,7 @@ questions_this_session = 0
 version_message = ""
 
 # This should be changed alongside the 'VERSION' file with each push to allow for version checking at startup.
-VERSION_SUM = "d5ece9caeb4606f7e651d12da1614b19ee93784833ded6821ad30bd6ef8b817e"
+VERSION_SUM = "1aff93a722a4035654fbe31103d84fbc65c9989b0ecc2c169f57052c1565d8e3"
 
 
 class Question():
@@ -93,6 +93,7 @@ class QuestionType(Enum):
     MATRIX_SUM = 15,
     MATRIX_SUBSCRIPT = 16,
     RADIAN_DEGREES_CONVERSION = 17
+    LOGARITHM_BASE = 18
 
 class BaseType(Enum):
     DEC = "DECIMAL / DENARY (Base10)"
@@ -712,6 +713,21 @@ def GiveRadiansDegreeQuestion():
     generated_question = Question(q_text,a_text)
     generated_question.Display()
 
+def GiveLogBaseQuestion():
+    base = round(uniform(2,32),2)
+    sum_answer = round(uniform(2.0,10000.0),3)
+    power = round(math.log(sum_answer,base),9)
+   
+
+    if randint(0,1) == 1:
+        q_text = "What power of {} returns {}?".format(base,sum_answer)
+    else:
+        q_text = "What is the LOGARITHM of {} to base {}?".format(sum_answer,base)
+    a_text = power
+
+    generated_question = Question(q_text,a_text)
+    generated_question.Display()
+
 #Specify a question type, it will handle the rest
 def GiveQuestion(question_type):
     if(question_type == QuestionType.BASE_CONVERSION):
@@ -751,7 +767,8 @@ def GiveQuestion(question_type):
         GiveMatrixSubscriptQuestion()
     if(question_type == QuestionType.RADIAN_DEGREES_CONVERSION):
         GiveRadiansDegreeQuestion()
-
+    if(question_type == QuestionType.LOGARITHM_BASE):
+        GiveLogBaseQuestion()
 # Program Start
 
 # Ask for user topic range
