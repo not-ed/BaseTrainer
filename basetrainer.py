@@ -10,7 +10,7 @@ questions_this_session = 0
 version_message = ""
 
 # This should be changed alongside the 'VERSION' file with each push to allow for version checking at startup.
-VERSION_SUM = "1aff93a722a4035654fbe31103d84fbc65c9989b0ecc2c169f57052c1565d8e3"
+VERSION_SUM = "ef8f2569d3096fcc2e37c36ab03492fa8edcaaf489060272bc541dd414d02c92"
 
 
 class Question():
@@ -85,15 +85,16 @@ class QuestionType(Enum):
     MODE_SET = 7,
     MEDIAN_SET = 8,
     MEAN_SET = 9,
-    RANGE_SET = 10
+    RANGE_SET = 10,
     MATRIX_MULTIPLICATION = 11,
     MATRIX_TRANSPOSE = 12,
     MATRIX_ORDER = 13,
     MATRIX_DETERMINANT = 14,
     MATRIX_SUM = 15,
     MATRIX_SUBSCRIPT = 16,
-    RADIAN_DEGREES_CONVERSION = 17
-    LOGARITHM_BASE = 18
+    RADIAN_DEGREES_CONVERSION = 17,
+    LOGARITHM_BASE = 18,
+    INVERSE_MATRIX = 19
 
 class BaseType(Enum):
     DEC = "DECIMAL / DENARY (Base10)"
@@ -110,7 +111,7 @@ def PerformVersionCheck():
         if utd_version_sum.read().decode('utf-8') == VERSION_SUM:
             version_message = "*BaseTrainer is up to date.*"
         else:
-            version_message = "*A NEW VERSION OF BASETRAINER IS AVAILABLE FROM GITHUB:*\nhttps://github.com/not-ed/BaseTrainer"
+            version_message = "*A NEW VERSION OF BASETRAINER IS AVAILABLE FROM GITHUB:*\ngit pull https://github.com/not-ed/BaseTrainer"
     except:
         version_message = "*Unable to check for newest version.*"
 
@@ -728,6 +729,32 @@ def GiveLogBaseQuestion():
     generated_question = Question(q_text,a_text)
     generated_question.Display()
 
+def GiveInverseMatrixQuestion():
+    letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    matrix_letter = letters[randint(0, 25)]
+    matrix_values = {
+        "a" : randint(-10, 10),
+        "b" : randint(-10, 10),
+        "c" : randint(-10, 10),
+        "d" : randint(-10, 10)
+    }
+    matrix_inverse = (matrix_values["a"]*matrix_values["d"])-(matrix_values["b"]*matrix_values["c"])
+
+    q_text = "Identify {} if it exists.\n\n".format(choice(["{}⁻¹".format(matrix_letter),"the INVERSE of {}".format(matrix_letter)]))
+    q_text += matrix_letter + "=\n"
+    q_text += "┌" + str(matrix_values["a"]).rjust(3) + " " + str(matrix_values["b"]).rjust(3) + " ┐\n"
+    q_text += "│" + "".rjust(3) + " " + "".rjust(3) + " │\n"
+    q_text += "└" + str(matrix_values["c"]).rjust(3) + " " + str(matrix_values["d"]).rjust(3) + " ┘"
+    q_text += "\n\nRemember that you can verify {}⁻¹ is correct by checking if {}⁻¹{} produces an Identity Matrix.".format(matrix_letter,matrix_letter,matrix_letter) * randint(0, 1)
+    if matrix_inverse == 0:
+        a_text = "The matrix {} is singular. No inverse exists.".format(matrix_letter)
+    else:
+        a_text =  "\n" + "1".rjust(5) +"┌" + str(matrix_values["d"]).rjust(3) + " " + str(matrix_values["b"] * -1).rjust(3) + " ┐"
+        a_text += "\n" + ("―"*len(str(matrix_inverse))).rjust(5) +"│" + "".rjust(3) + " " + "".rjust(3) + " │"
+        a_text += "\n" + str(matrix_inverse).rjust(5) + "└" + str(matrix_values["c"] * -1).rjust(3) + " " + str(matrix_values["a"]).rjust(3) + " ┘"
+    generated_question = Question(q_text,a_text)
+    generated_question.Display()
+
 #Specify a question type, it will handle the rest
 def GiveQuestion(question_type):
     if(question_type == QuestionType.BASE_CONVERSION):
@@ -769,6 +796,8 @@ def GiveQuestion(question_type):
         GiveRadiansDegreeQuestion()
     if(question_type == QuestionType.LOGARITHM_BASE):
         GiveLogBaseQuestion()
+    if(question_type == QuestionType.INVERSE_MATRIX):
+        GiveInverseMatrixQuestion()
 # Program Start
 
 # Ask for user topic range
