@@ -26,6 +26,7 @@ The following topics are also covered from **Semester 2**'s cirriculum:
     - Addition or Subtraction of 2 identically sized matrices.
     - Referencing/Identifying subscripts of a given matrix.
     - Determining the Inverse of a 2x2 matrix if it exists.
+    - Solving a pair of Simultaneous Equations using inverse matrix methods.
 - Converting Degress to Radians, and vice-versa.
 - Determining the Logarithm of a random number to a given base.
 

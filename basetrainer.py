@@ -10,7 +10,7 @@ questions_this_session = 0
 version_message = ""
 
 # This should be changed alongside the 'VERSION' file with each push to allow for version checking at startup.
-VERSION_SUM = "ef8f2569d3096fcc2e37c36ab03492fa8edcaaf489060272bc541dd414d02c92"
+VERSION_SUM = "764d411f0014f84deac58921196aaaeada6247c53b0888dd8d42651f910df14"
 
 
 class Question():
@@ -94,7 +94,8 @@ class QuestionType(Enum):
     MATRIX_SUBSCRIPT = 16,
     RADIAN_DEGREES_CONVERSION = 17,
     LOGARITHM_BASE = 18,
-    INVERSE_MATRIX = 19
+    INVERSE_MATRIX = 19,
+    SIMULATANEOUS_EQUATIONS = 20
 
 class BaseType(Enum):
     DEC = "DECIMAL / DENARY (Base10)"
@@ -755,6 +756,54 @@ def GiveInverseMatrixQuestion():
     generated_question = Question(q_text,a_text)
     generated_question.Display()
 
+def GiveSimultaneousEquationsQuestion():
+
+    matrix_inverse = 0
+    # Checking for validity is not needed for the user in this case.
+    while matrix_inverse == 0:
+        matrix_values = {
+            "a" : randint(2, 10),
+            "b" : randint(2, 10),
+            "c" : randint(2, 10),
+            "d" : randint(2, 10)
+        }
+        matrix_inverse = (matrix_values["a"]*matrix_values["d"])-(matrix_values["b"]*matrix_values["c"])
+
+    x = randint(2, 10)
+    y = randint(2, 10)
+
+    # Will equation a or b have its values subtracted?
+    sub_a = choice([1,-1])
+    if sub_a == -1:
+        matrix_values["b"] = matrix_values["b"] * -1
+
+    sub_b = choice([1,-1])
+    if sub_b == -1:
+        matrix_values["d"] = matrix_values["d"] * -1
+
+    q_text = "Solve the following Simultaneous Equations using INVERSE MATRIX methods:\n\n"
+
+    q_text += str(matrix_values["a"]) + "x"
+    if sub_a == -1:
+        q_text += " - {}y".format(matrix_values["b"]*-1)
+    else:
+        q_text += " + {}y".format(matrix_values["b"])
+    q_text += " = {}\n".format((matrix_values["a"]*x)+(matrix_values["b"]*y))
+
+    q_text += str(matrix_values["c"]) + "x"
+    if sub_b == -1:
+        q_text += " - {}y".format(matrix_values["d"]*-1)
+    else:
+        q_text += " + {}y".format(matrix_values["d"])
+    q_text += " = {}".format((matrix_values["c"]*x)+(matrix_values["d"]*y))
+
+    q_text += "\n\nA unique solution is guaranteed for this question."
+
+    a_text = "\nx = {}".format(x)
+    a_text += "\ny = {}".format(y)
+    generated_question = Question(q_text,a_text)
+    generated_question.Display()
+
 #Specify a question type, it will handle the rest
 def GiveQuestion(question_type):
     if(question_type == QuestionType.BASE_CONVERSION):
@@ -798,6 +847,8 @@ def GiveQuestion(question_type):
         GiveLogBaseQuestion()
     if(question_type == QuestionType.INVERSE_MATRIX):
         GiveInverseMatrixQuestion()
+    if(question_type == QuestionType.SIMULATANEOUS_EQUATIONS):
+        GiveSimultaneousEquationsQuestion()
 # Program Start
 
 # Ask for user topic range
